@@ -38,14 +38,16 @@ void insert(int key, int val) {
     if (!e) panic("No memory to allocate bucket!");
     pthread_mutex_lock(&lock);
     e->next = table[i];
-    e->key = key;
-    e->val = val;
     table[i] = e;
     pthread_mutex_unlock(&lock);
+    e->key = key;
+    e->val = val;
 }
 
 // Retrieves an entry from the hash table by key
 // Returns NULL if the key isn't found in the table
+
+//doesn't need lock
 bucket_entry * retrieve(int key) {
     bucket_entry *b;
     for (b = table[key % NUM_BUCKETS]; b != NULL; b = b->next) {
